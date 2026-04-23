@@ -25,11 +25,14 @@ public class TransicaoService {
     public TransacaoDTO criarTransacao(TransacaoDTO dto) {
         validarTransacao(dto);
         Transacao transacao = transacaoMapper.toEntity(dto);
-        List<TransacaoDTO> dtoList = new ArrayList<>();
-        dtoList.add(dto);
-        dtoList.stream().toList();
         return dto;
     }
+
+    public void deletarTransacao(){
+        dtoList.clear();
+    }
+
+
 
 
     private void validarTransacao(TransacaoDTO dto) {
@@ -53,4 +56,5 @@ public class TransicaoService {
             throw new HttpException("Data futura não é permitida", HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
+
 }
