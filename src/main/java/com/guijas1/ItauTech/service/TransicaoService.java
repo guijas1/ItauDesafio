@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -20,11 +21,12 @@ public class TransicaoService {
         this.transacaoMapper = transacaoMapper;
     }
 
-    List<TransacaoDTO> dtoList = new ArrayList<>();
+    List<TransacaoDTO> dtoList = new LinkedList<>();
 
     public TransacaoDTO criarTransacao(TransacaoDTO dto) {
         validarTransacao(dto);
         Transacao transacao = transacaoMapper.toEntity(dto);
+        dtoList.add(dto);
         return dto;
     }
 
@@ -32,7 +34,9 @@ public class TransicaoService {
         dtoList.clear();
     }
 
-
+    public List<TransacaoDTO> listarTransacoes(){
+        return dtoList;
+    }
 
 
     private void validarTransacao(TransacaoDTO dto) {

@@ -26,8 +26,6 @@ public class TransacaoController {
     @PostMapping()
     public ResponseEntity<TransacaoDTO> criarTransacao(@RequestBody TransacaoDTO dto){
         transicaoService.criarTransacao(dto);
-        List<TransacaoDTO> lsDTO = new LinkedList<>();
-        lsDTO.add(dto);
         return ResponseEntity.status(201).body(dto);
     }
     @DeleteMapping()
@@ -35,6 +33,12 @@ public class TransacaoController {
         transicaoService.deletarTransacao();
         HttpStatus status = HttpStatus.OK;
 
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<TransacaoDTO>> listarTodas(){
+        List<TransacaoDTO> transacaoDTOS = transicaoService.listarTransacoes();
+        return ResponseEntity.ok(transacaoDTOS);
     }
 
 }
