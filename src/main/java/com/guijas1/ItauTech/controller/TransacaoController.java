@@ -29,10 +29,9 @@ public class TransacaoController {
         return ResponseEntity.status(201).body(dto);
     }
     @DeleteMapping()
-    public void deletarTransacao(){
+    public ResponseEntity deletarTransacao(){
         transicaoService.deletarTransacao();
-        HttpStatus status = HttpStatus.OK;
-
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping()

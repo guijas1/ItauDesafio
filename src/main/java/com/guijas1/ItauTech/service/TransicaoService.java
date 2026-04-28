@@ -1,5 +1,6 @@
 package com.guijas1.ItauTech.service;
 
+import com.guijas1.ItauTech.dto.EstatisticaDTO;
 import com.guijas1.ItauTech.dto.TransacaoDTO;
 import com.guijas1.ItauTech.exeception.HttpException;
 import com.guijas1.ItauTech.mapper.TransacaoMapper;
@@ -38,6 +39,24 @@ public class TransicaoService {
         return dtoList;
     }
 
+    public EstatisticaDTO estatistica(OffsetDateTime horaInicial) {
+        final var summary = dtoList.stream()
+                .filter(t -> t.dataHora().isAfter(horaInicial) || t.dataHora().isEqual(horaInicial))
+                .mapToDouble(t -> t.valor().doubleValue())
+                .summaryStatistics();
+
+        if (summary.getCount() == 0) {
+            return new EstatisticaDTO(0, 0.0, 0.0, 0.0, 0.0);
+        }
+
+        return new EstatisticaDTO(
+                summary.getCount(),
+                summary.getSum(),
+                summary.getAverage(),
+                summary.getMin(),
+                summary.getMax()
+        );
+    }
 
     private void validarTransacao(TransacaoDTO dto) {
         if (dto == null) {
