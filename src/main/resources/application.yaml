@@ -3,4 +3,4 @@ spring:
     name: ItauTech
 
 estatistica:
-  seconds: 60
+  seconds: -60

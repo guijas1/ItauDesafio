@@ -5,14 +5,17 @@ import com.guijas1.ItauTech.dto.TransacaoDTO;
 import com.guijas1.ItauTech.exeception.HttpException;
 import com.guijas1.ItauTech.mapper.TransacaoMapper;
 import com.guijas1.ItauTech.model.Transacao;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
 import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
+@Slf4j
 @Service
 public class TransicaoService {
 
@@ -23,9 +26,12 @@ public class TransicaoService {
     }
 
     List<TransacaoDTO> dtoList = new LinkedList<>();
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+    DecimalFormat df = new DecimalFormat("0.00");
 
     public TransacaoDTO criarTransacao(TransacaoDTO dto) {
         validarTransacao(dto);
+        log.info("Validação feita resultado: Valor - " + df.format(dto.valor()) + " " + " " +dto.dataHora().format(FORMATTER));
         Transacao transacao = transacaoMapper.toEntity(dto);
         dtoList.add(dto);
         return dto;
@@ -60,6 +66,7 @@ public class TransicaoService {
 
     private void validarTransacao(TransacaoDTO dto) {
         if (dto == null) {
+
             throw new HttpException("Body da requisição é obrigatório", HttpStatus.BAD_REQUEST);
         }
 
